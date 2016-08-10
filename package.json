@@ -4,6 +4,7 @@
     "start": "node server"
   },
   "dependencies": {
+    "lowdb": "^0.13.1",
     "request": "^2.74.0",
     "request-promise": "^4.1.0"
   }
