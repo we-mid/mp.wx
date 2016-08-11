@@ -4,6 +4,11 @@
     "start": "node server"
   },
   "dependencies": {
+    "co": "^4.6.0",
+    "jssha": "^1.6.2",
+    "koa": "^1.2.1",
+    "koa-router": "^5.4.0",
+    "koa-static": "^2.0.0",
     "lowdb": "^0.13.1",
     "request": "^2.74.0",
     "request-promise": "^4.1.0"

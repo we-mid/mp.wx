@@ -11,17 +11,18 @@ function tss() {
   return Math.floor(Date.now() / 1000)
 }
 
-function* getJsApiSign (req) {
-  const referer = req.get('referer') || ''
+function* getJsApiSign (referer) {
+// function* getJsApiSign (req) {
+  // const referer = req.get('referer') || ''
   // var refhost = url.parse(referer).hostname
   // if (!_.any(config.wxm.trustedhosts, function(host){
   //   return isOf(host, refhost)
   // })) {
   //   return cb(new Error('host not trusted'))
   // }
-  const { jsapi_ticket } = yield getJsApiTicket()
-  //const sign = wxsign(jsapi_ticket, fullUrl(req))
-  const sign = wxsign(jsapi_ticket, referer)
+  const { ticket } = yield getJsApiTicket()
+  //const sign = wxsign(ticket, fullUrl(req))
+  const sign = wxsign(ticket, referer)
   sign.appId = appid
   return sign
 }
@@ -36,7 +37,7 @@ function* getJsApiTicket () {
     ticket,
     deadline: expires_in + tss()
   }
-  db.set('jsapi_ticket', item)
+  db.set('jsapi_ticket', item).value()
   return item
 }
 
@@ -46,11 +47,13 @@ function* reqJsApiTicket() {
     'https://api.weixin.qq.com/cgi-bin/ticket' +
     `/getticket?access_token=${access_token}` +
     '&type=jsapi'
-  const { errcode, errmsg } = yield rp({ url, json: true })
+  const data = yield rp({ url, json: true })
+  const { errcode, errmsg } = data
   if (errcode) {
     throw new Error(`${errcode}: ${errmsg}`)
   }
-  return { errcode, errmsg }
+  const { ticket, expires_in } = data
+  return { ticket, expires_in }
 }
 
 function* getAccessToken() {
@@ -63,7 +66,7 @@ function* getAccessToken() {
     access_token,
     deadline: expires_in + tss()
   }
-  db.set('access_token', item)
+  db.set('access_token', item).value()
   return item
 }
 
@@ -72,9 +75,11 @@ function* reqAccessToken() {
     'https://api.weixin.qq.com/cgi-bin/token' +
     `?grant_type=client_credential&appid=${appid}` +
     `&secret=${secret}`
-  const { errcode, errmsg } = rp({ url, json: true })
+  const data = yield rp({ url, json: true })
+  const { errcode, errmsg } = data
   if (errcode) {
     throw new Error(`${errcode}: ${errmsg}`)
   }
-  return { errcode, errmsg }
+  const { access_token, expires_in } = data
+  return { access_token, expires_in }
 }
