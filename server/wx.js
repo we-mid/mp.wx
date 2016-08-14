@@ -22,9 +22,11 @@ function* getJsApiSign (referer) {
   // }
   const { ticket } = yield getJsApiTicket()
   //const sign = wxsign(ticket, fullUrl(req))
-  const sign = wxsign(ticket, referer)
-  sign.appId = appid
-  return sign
+  const { jsapi_ticket, timestamp, signature, nonceStr } = wxsign(ticket, referer)
+  return {
+    jsapi_ticket, timestamp, signature, nonceStr,
+    appId: appid
+  }
 }
 
 function* getJsApiTicket () {
