@@ -3,6 +3,10 @@
 <meta name="viewport" content="width=device-width">
 
 <style>
+  hr {
+    border: none;
+    border-bottom: dashed 2px #D3DCE6;
+  }
   textarea, label {
     display: block;
     width: 100%;
@@ -30,9 +34,12 @@
 </style>
 
 <form onsubmit="return false" onchange="formChange()">
-  <textarea name="link" rows="2" placeholder="Link.."></textarea>
-  <textarea name="title" rows="2" placeholder="Title.."></textarea>
-  <textarea name="description" rows="3" placeholder="Description.."></textarea>
+  <textarea name="link" rows="2" placeholder="Target Link.."></textarea>
+  <textarea name="text" rows="3" placeholder="or Target Text.."></textarea>
+  <textarea name="size" rows="1" placeholder="Target Text Size.."></textarea>
+  <hr>
+  <textarea name="title" rows="2" placeholder="Share Title.."></textarea>
+  <textarea name="description" rows="3" placeholder="Share Description.."></textarea>
   <label>
     <div>Image</div>
     <p>Please pick a file..</p>
@@ -71,6 +78,8 @@ var $ = document.querySelector.bind(document)
 var ititle = $('[name=title]')
 var idesc = $('[name=description]')
 var ilink = $('[name=link]')
+var iText = $('[name=text]')
+var iSize = $('[name=size]')
 var ifile = $('[name=image]')
 var pfile = $('label p')
 var img = $('label img')
@@ -116,7 +125,13 @@ function updateWxShare (data) {
   data = assign({
     title: ititle.value,
     desc: idesc.value,
-    link: ilink.value || location.href,
+    link: iText.value && [
+        'http://share.wx.fritx.me/show/?size=',
+        encodeURIComponent(iSize.value),
+        '&text=',
+        encodeURIComponent(iText.value)
+      ].join('')
+      || ilink.value || location.href,
     imgUrl: img.src
     // imgUrl: 'http://demo.open.weixin.qq.com/jssdk/images/p2166127561.jpg'
   }, data)

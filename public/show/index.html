@@ -1,0 +1,43 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width">
+
+<style>
+  body {
+    margin: 40px;
+    font-size: 300%;
+    text-align: center;
+    word-break: break-word;
+  }
+  h1 {
+    margin: 0;
+  }
+
+  /* 如果支持flex布局 */
+  /* 更优雅的水平/垂直居中方式 */
+  html {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<h1 id="h1"></h1>
+
+<script>
+  var mat = location.href.match(/[?&]text=([^?&#!/]*)/)
+  var content = mat && mat[1] && decodeURIComponent(mat[1])
+
+  mat = location.href.match(/[?&]size=([^?&#!/]*)/)
+  var size = mat && mat[1] && decodeURIComponent(mat[1]) || '1'
+
+  var h1 = document.getElementById('h1')
+  h1.textContent = content
+
+  if (size) h1.style['font-size'] = size + 'em'
+</script>
