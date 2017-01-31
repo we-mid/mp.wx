@@ -1,11 +1,11 @@
 const { join } = require('path')
-const dbpath = join(__dirname, 'db.json')
+const dbPath = join(__dirname, 'db.json')
 
-const appid = 'wxXXXXXXXXXXXXXXXX'
+const appId = 'wxXXXXXXXXXXXXXXXX'
 const secret = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 
 module.exports = {
-  dbpath,
-  appid,
+  dbPath,
+  appId,
   secret,
 }

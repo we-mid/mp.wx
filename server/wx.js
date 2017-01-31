@@ -1,4 +1,4 @@
-const { dbpath, appid, secret } = require('../config')
+const { appId, secret } = require('../config')
 const wxsign = require('./wxsign')
 const db = require('./db')
 const rp = require('request-promise')
@@ -7,7 +7,7 @@ module.exports = {
   getJsApiSign,
 }
 
-function tss() {
+function tss () {
   return Math.floor(Date.now() / 1000)
 }
 
@@ -25,7 +25,7 @@ function* getJsApiSign (referer) {
   const { jsapi_ticket, timestamp, signature, nonceStr } = wxsign(ticket, referer)
   return {
     jsapi_ticket, timestamp, signature, nonceStr,
-    appId: appid
+    appId
   }
 }
 
@@ -43,7 +43,7 @@ function* getJsApiTicket () {
   return item
 }
 
-function* reqJsApiTicket() {
+function* reqJsApiTicket () {
   const { access_token } = yield getAccessToken()
   const url =
     'https://api.weixin.qq.com/cgi-bin/ticket' +
@@ -58,7 +58,7 @@ function* reqJsApiTicket() {
   return { ticket, expires_in }
 }
 
-function* getAccessToken() {
+function* getAccessToken () {
   let item = db.get('access_token').value()
   if (item && item.deadline - tss() > 60) {
     return item
@@ -72,10 +72,10 @@ function* getAccessToken() {
   return item
 }
 
-function* reqAccessToken() {
+function* reqAccessToken () {
   const url =
     'https://api.weixin.qq.com/cgi-bin/token' +
-    `?grant_type=client_credential&appid=${appid}` +
+    `?grant_type=client_credential&appid=${appId}` +
     `&secret=${secret}`
   const data = yield rp({ url, json: true })
   const { errcode, errmsg } = data
