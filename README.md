@@ -1,3 +1,10 @@
+## Roadmap
+
+- [x] 定制title,desc,image基本实现
+- [x] text大字静态页
+- [x] 语音定制分享+素材保存
+- [ ] 极简样式
+
 ## Troubleshootings
 
 ```plain
@@ -7,4 +14,4 @@ Error: Chosen SHA variant is not supported
     at sign (/Users/fritx/d/mp.wx/server/wxsign.js:45:16)
 ```
 
-新版jssha@2.x不支持，转为安装1.x版本
+新版jssha\@2.x不支持，转为安装1.x版本

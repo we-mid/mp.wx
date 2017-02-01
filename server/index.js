@@ -1,8 +1,6 @@
 require('./console')
-const { getJsApiSign } = require('./wx')
+const wx = require('./wx')
 const fs = require('fs-extra-promise')
-const uuid = require('node-uuid')
-const co = require('co')
 const koa = require('koa')
 const mount = require('koa-mount')
 const serve = require('koa-static')
@@ -14,17 +12,12 @@ const publicPath = join(__dirname, '../public')
 
 fs.ensureDirSync(uploadPath)
 
-// co(function* () {
-//   return yield getJsApiSign('http://fritx.me')
-// })
-// .then(console.log, console.error)
-
 const app = koa()
 const router = new Router()
 
 router.get('/wxsign', function* () {
   const referer = this.request.get('referer')
-  const sign = yield getJsApiSign(referer)
+  const sign = yield wx.getJsApiSign(referer)
   this.body = sign
 })
 

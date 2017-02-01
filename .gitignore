@@ -2,3 +2,5 @@ node_modules
 *.log
 config.js
 db.json
+upload
+sftp-*
