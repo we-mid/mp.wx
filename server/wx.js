@@ -1,7 +1,10 @@
 const { appId, secret } = require('../config')
 const wxsign = require('./wxsign')
-const db = require('./db')
 const rp = require('request-promise')
+const db = require('lowdb')(__dirname + '/../db.wx.json')
+
+const kJsapiTicket = 'jsapi_ticket'
+const kAccessToken = 'access_token'
 
 module.exports = {
   getJsApiSign,
@@ -30,7 +33,7 @@ function* getJsApiSign (referer) {
 }
 
 function* getJsApiTicket () {
-  let item = db.get('jsapi_ticket').value()
+  let item = db.get(kJsapiTicket).value()
   if (item && item.deadline - tss() > 60) {
     return item
   }
@@ -39,7 +42,7 @@ function* getJsApiTicket () {
     ticket,
     deadline: expires_in + tss()
   }
-  db.set('jsapi_ticket', item).value()
+  db.set(kJsapiTicket, item).value()
   return item
 }
 
@@ -59,7 +62,7 @@ function* reqJsApiTicket () {
 }
 
 function* getAccessToken () {
-  let item = db.get('access_token').value()
+  let item = db.get(kAccessToken).value()
   if (item && item.deadline - tss() > 60) {
     return item
   }
@@ -68,7 +71,7 @@ function* getAccessToken () {
     access_token,
     deadline: expires_in + tss()
   }
-  db.set('access_token', item).value()
+  db.set(kAccessToken, item).value()
   return item
 }
 

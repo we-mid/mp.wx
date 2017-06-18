@@ -1,9 +1,9 @@
 ## Roadmap
 
-- [x] 定制title,desc,image基本实现
-- [x] text大字静态页
-- [x] 语音定制分享+素材保存
-- [ ] 极简样式
+- [x] 微信jssdk功能接口
+- [x] 原始样式 见[public/](https://github.com/fritx/mp.wx/tree/dev/public)
+- [x] weui样式 见[share.wx](https://github.com/fritx/share.wx)
+- [ ] koa1升koa2
 
 ## Troubleshootings
 

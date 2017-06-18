@@ -1,6 +1,6 @@
 node_modules
 *.log
 config.js
-db.json
+db.*.json
 upload
 sftp-*
