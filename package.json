@@ -1,9 +1,11 @@
 {
   "name": "mp.wx",
   "scripts": {
+    "dev": "nodemon server",
     "start": "node server"
   },
   "dependencies": {
+    "article-parser": "^1.6.4",
     "fs-extra-promise": "^0.4.0",
     "jssha": "^1.6.2",
     "koa": "^1.2.4",

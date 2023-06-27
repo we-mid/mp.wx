@@ -47,6 +47,20 @@ router.get('/get/:id', function* () {
   this.body = data
 })
 
+const { extract } = require('article-extract')
+router.get('/article-extract', function* () {
+  const { url } = this.query
+  const data = yield extract(url)
+  this.body = data
+})
+
+let ArticleParser = require('article-parser')
+router.get('/article-parser', function* () {
+  const { url } = this.query
+  const data = yield ArticleParser.extract(url)
+  this.body = data
+})
+
 app.use(cors)
 app.use(router.routes())
 app.use(mount('/upload', serve(uploadPath)))
